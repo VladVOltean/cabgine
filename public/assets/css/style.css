@@ -1,0 +1,148 @@
+html {
+height: 100%;
+}
+
+body{
+background-color: #e1e1e1;
+}
+
+.navbar .navbar-brand:hover{
+  color: #f38e9c;
+}
+.navbar-dark .navbar-nav .nav-link {
+color: #000000;
+}
+.navbar-dark  .navbar-nav .nav-link:visited{
+color: #000000;
+}
+.navbar-brand:visited{
+color: #000000;
+}
+.navbar-dark .navbar-nav .nav-link:unvisited{
+color: #000000;
+}
+.navbar-dark .navbar-nav .nav-link:hover{
+color: #f38e9c;
+}
+.navbar-dark .navbar-nav .nav-link:active{
+color: #f38e9c; /*????*/
+}
+
+.form-wrapper{
+border-radius: 7px;
+}
+.form-wrapper label{
+font-weight: bold;
+}
+
+.errors li{
+list-style: none;
+width: 100%;
+text-align: center;
+}
+.errors ul{
+padding-left: 0;
+margin-bottom: 0;
+}
+
+
+/* table styling */
+
+.ptable {
+  
+  margin-top: 3rem!important;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+
+/* table pagination styling */
+
+.pagination li a {
+    position: relative;
+    display: block;
+    padding: .5rem .75rem;
+    margin-left: -1px;
+    line-height: 1.25;
+    color: #007bff;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+}
+
+.pagination li.active a {
+    z-index: 1;
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+@media (max-width: 768px){
+.form-wrapper .text-right{
+text-align: center !important;
+}
+.form-wrapper .btn-primary{
+display: block;
+margin: 0 auto;
+}
+}
+img{
+height:200px;
+width:100%;
+}
+.item{
+padding-left:5px;
+padding-right:5px;
+}
+.item-card{
+transition:0.5s;
+cursor:pointer;
+}
+.item-card-title{
+font-size:15px;
+transition:1s;
+cursor:pointer;
+}
+.item-card-title i{
+font-size:15px;
+transition:1s;
+cursor:pointer;
+color:#ffa710
+}
+/*.card-title i:hover{
+transform: scale(1.25) rotate(100deg);
+color:#18d4ca;*/
+
+}
+.card:hover{
+transform: scale(1.05);
+box-shadow: 10px 10px 15px rgba(0,0,0,0.3);
+}
+.card-text{
+height:80px;
+}
+.card::before, .card::after {
+position: absolute;
+top: 0;
+right: 0;
+bottom: 0;
+left: 0;
+transform: scale3d(0, 0, 1);
+transition: transform .3s ease-out 0s;
+background: rgba(255, 255, 255, 0.1);
+content: '';
+pointer-events: none;
+}
+.card::before {
+transform-origin: left top;
+}
+.card::after {
+transform-origin: right bottom;
+}
+.card:hover::before, .card:hover::after, .card:focus::before, .card:focus::after {
+transform: scale3d(1, 1, 1);
+}
+@media print {
+  #printPageButton {
+      display: none;
+  }
+}
