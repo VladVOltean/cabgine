@@ -38,13 +38,12 @@ class Users extends BaseController
 
 				$this->setUserSession($user);
 				//$session->setFlashdata('success', 'Successful Registration');
-				return redirect()->to('dashboard');
+				return redirect()->to('patients_list');
 			}
 		}
 
-		echo view('templates/header', $data);
-		echo view('login');
-		echo view('templates/footer');
+
+		echo view('login', $data);
 	}
 	public function register()
 	{
@@ -77,9 +76,9 @@ class Users extends BaseController
 				return redirect()->to('/');
 			}
 		}
-		echo view('templates/header', $data);
+	
 		echo view('register', $data);
-		echo view('templates/footer');
+
 	}
 
 	private function setUserSession($user)
@@ -139,14 +138,14 @@ class Users extends BaseController
 				$model->save($newData);
 
 				session()->setFlashdata('success', 'Successfuly Updated');
-				return redirect()->to('/profile');
+				return redirect()->to('profile');
 			}
 		}
 
 		$data['user'] = $model->where('id', session()->get('id'))->first();
-		echo view('templates/header', $data);
-		echo view('profile');
-		echo view('templates/footer');
+
+		echo view('profile', $data);
+
 	}
 
 	public function logout()

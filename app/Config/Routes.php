@@ -37,9 +37,10 @@ $routes->match(['get', 'post'], 'register', 'Users::register', ['filter' => 'noa
 $routes->get('logout', 'Users::logout');
 $routes->match(['get', 'post'], 'profile', 'Users::profile', ['filter' => 'auth']);
 $routes->get('dashboard', 'Dashboard::index', ['filter' => 'auth']);
-$routes->get('lista_pacienti', 'ListaPacienti::index');
-$routes->get('dosar_pacienti', 'DosarPacienti::index');
+$routes->get('history', 'History::index');
+$routes->get('patients_list', 'PatientsList::index');
 $routes->match(['get', 'post'], 'medicalrecord/(:num)', 'MedicalRecord::index/$1', ['filter' => 'auth']);
+$routes->match(['get', 'post'],'medicalrecord/history', 'MedicalRecord::history', ['filter' => 'auth']);
 $routes->get('mod_financiar', 'ModFinanciar::index');
 $routes->get('medicalletter/(:any)/(:any)', 'Medicalletter::index/$1/$2', ['filter' => 'auth']);
 

@@ -1,7 +1,9 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/style.css">
+<?= $this->extend('layouts/mainpage.php') ?>
 
-<?php 
+<?= $this->section('content') ?>
+
+
+        <?php 
 
         $validation = \Config\Services::validation();
 
@@ -12,7 +14,7 @@
         <div class="card ptable">
             <div class="card-header">Edit Patient Informations</div>
             <div class="card-body">
-                <form method="post" action="<?php echo base_url('ListaPacienti/edit_validation'); ?>">
+                <form method="post" action="<?php echo base_url('PatientsList/edit_validation'); ?>">
                     <div class="form-group">
                         <label>First Name</label>
                         <input type="text" name="first_name" class="form-control" value="<?php echo $user_data['first_name']; ?>">
@@ -84,3 +86,5 @@
                 </form>
             </div>
         </div>
+
+<?= $this->endSection() ?>

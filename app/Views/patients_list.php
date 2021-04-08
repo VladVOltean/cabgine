@@ -1,5 +1,7 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/style.css">
+
+<?= $this->extend('layouts/mainpage.php') ?>
+
+<?= $this->section('content') ?>
 
 <?php
 $session = \Config\Services::session();
@@ -9,12 +11,12 @@ if ($session->getFlashdata('success')) {
 ';
 }
 ?>
-<div class="card ptable">
+<div class="card ptable" style="width: 85%;">
 	<div class="card-header">
 		<div class="row">
 			<div class="col">Patient List</div>
 			<div class="col text-right">
-				<a href="<?php echo base_url("/ListaPacienti/add") ?>" class="btn btn-success btn-sm">Add Patient</a>
+				<a href="<?php echo base_url("/PatientsList/add") ?>" class="btn btn-success btn-sm">Add Patient</a>
 			</div>
 		</div>
 	</div>
@@ -30,6 +32,7 @@ if ($session->getFlashdata('success')) {
 					<th>Edit</th>
 					<th>Delete</th>
 					<th>Consult</th>
+					<th>Medical history</th>
 
 				</tr>
 				<?php
@@ -42,9 +45,10 @@ if ($session->getFlashdata('success')) {
 					<td>' . $user["last_name"] . '</td>
 					<td>' . $user["identification_number"] . '</td>
 					<td>' . $user["date_of_birth"] . '</td>
-					<td><a href="' . base_url() . '/ListaPacienti/fetch_single_data/' . $user["id_patient"] . '" class="btn btn-sm btn-warning">Edit</a></td>
+					<td><a href="' . base_url() . '/PatientsList/fetch_single_data/' . $user["id_patient"] . '" class="btn btn-sm btn-warning">Edit</a></td>
 					<td><button type="button" onclick="delete_data(' . $user["id_patient"] . ')" class="btn btn-danger btn-sm">Delete</button></td>
 					<td><button type="button" onclick="consult_page(' . $user["id_patient"] . ')" class="btn btn-danger btn-sm">Consult</button></td>
+					<td><button type="button" onclick="history_page(' . $user["id_patient"] . ')" class="btn btn-dark btn-sm">History</button></td>
 				</tr>';
 					}
 				}
@@ -54,7 +58,7 @@ if ($session->getFlashdata('success')) {
 		<div>
 			<?php
 			if ($pagination_link) {
-				$pagination_link->setPath('lista_pacienti');
+				$pagination_link->setPath('patients_list');
 				echo $pagination_link->links();
 			}
 
@@ -67,7 +71,7 @@ if ($session->getFlashdata('success')) {
 <script>
 	function delete_data(id) {
 		if (confirm("Are you sure you want to remove it?")) {
-			window.location.href = "<?php echo base_url(); ?>/ListaPacienti/delete/" + id;
+			window.location.href = "<?php echo base_url(); ?>/PatientsList/delete/" + id;
 		}
 		return false;
 	}
@@ -76,4 +80,10 @@ if ($session->getFlashdata('success')) {
 		window.location.href = "<?php echo base_url(); ?>/medicalrecord/" + id;
 
 	}
+	function history_page(id) {
+		window.location.href = "<?php echo base_url(); ?>/medicalrecord/" + id;
+
+	}
 </script>
+
+<?= $this->endSection() ?>
