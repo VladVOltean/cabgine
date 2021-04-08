@@ -1,6 +1,6 @@
 <?php namespace App\Controllers;
 
-class DosarPacienti extends BaseController
+class History extends BaseController
 {
 	public function index()
 	{	
@@ -12,9 +12,9 @@ class DosarPacienti extends BaseController
         }
         ///////////////////////////////////
 
-		echo view('templates/header', $data);
-		echo view('dosar_pacienti');
-		echo view('templates/footer', $data);
+		
+		echo view('history'.$data);
+
 	}
 
 	//--------------------------------------------------------------------

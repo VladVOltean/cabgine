@@ -2,7 +2,7 @@
 
 use App\Models\PatientModel;
 
-class ListaPacienti extends BaseController
+class PatientsList extends BaseController
 {
 	public function index()
 	{	
@@ -12,11 +12,7 @@ class ListaPacienti extends BaseController
 
 		$data['pagination_link'] = $patientModel->pager;
 
-		
-
-		echo view('templates/header', $data);
-		return view('lista_pacienti', $data);
-		echo view('templates/footer', $data);
+		return view('patients_list', $data);
 
 	}	
 
@@ -24,9 +20,8 @@ class ListaPacienti extends BaseController
 	{
 
 		$data = [];
-		echo view('templates/header', $data);
-		return view('adauga_pacienti');
-		echo view('templates/footer', $data);
+
+		return view('add_patient',$data);
 
 	}
 
@@ -46,7 +41,7 @@ class ListaPacienti extends BaseController
 
 		if(!$error)
 		{
-			echo view('adauga_pacienti', [
+			echo view('add_patient', [
 				'error' 	=> $this->validator
 			]);
 		}
@@ -61,13 +56,11 @@ class ListaPacienti extends BaseController
 				'date_of_birth'	=>	date('Y-m-d',strtotime($this->request->getVar('date_of_birth')))
 			]);
 
-
-
 			$session = \Config\Services::session();
 
 			$session->setFlashdata('success', 'User Data Added');
 
-			return $this->response->redirect(site_url('/lista_pacienti'));
+			return $this->response->redirect(site_url('/patients_list'));
 		}
 	}
 
@@ -80,9 +73,8 @@ class ListaPacienti extends BaseController
 
         $data['user_data'] = $patientModel->where('id_patient', $id)->first();
 
-		echo view('templates/header', $data);
-		return view('edit_pacienti', $data);
-		echo view('templates/footer', $data);
+	
+		return view('edit_patient', $data);
         
     }
 
@@ -105,7 +97,7 @@ class ListaPacienti extends BaseController
         {
         	$data['user_data'] = $patientModel->where('id_patient', $id)->first();
         	$data['error'] = $this->validator;
-        	echo view('edit_pacienti', $data);
+        	echo view('edit_patient', $data);
         } 
         else 
         {
@@ -122,7 +114,7 @@ class ListaPacienti extends BaseController
 
             $session->setFlashdata('success', 'User Data Updated');
 
-        	return $this->response->redirect(site_url('/lista_pacienti'));
+        	return $this->response->redirect(site_url('/patients_list'));
         }
     }
 
@@ -136,6 +128,6 @@ class ListaPacienti extends BaseController
 
         $session->setFlashdata('success', 'User Data Deleted');
 
-        return $this->response->redirect(site_url('/lista_pacienti'));
+        return $this->response->redirect(site_url('/patients_list'));
     }
 }

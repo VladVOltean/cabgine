@@ -1,5 +1,6 @@
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="/assets/css/style.css">
+<?= $this->extend('layouts/mainpage.php') ?>
+
+<?= $this->section('content') ?>
 
         <?php
 
@@ -10,14 +11,11 @@
         <div class="card ptable">
             <div class="card-header">
                 <div class="row">
-                    <div class="col">New Patient</div>
-                    <div class="col text-right">
-                        
-                    </div>
+                    <div class="col text-left">New Patient</div>
                 </div>
             </div>
             <div class="card-body">
-                <form method="post" action="<?php echo base_url("/ListaPacienti/add_validation")?>">
+                <form method="post" action="<?php echo base_url("/PatientsList/add_validation");?>">
                     <div class="form-group">
                         <label>First Name</label>
                         <input type="text" name="first_name" class="form-control" />
@@ -81,3 +79,4 @@
             </div>
         </div>
 
+<?= $this->endSection() ?>

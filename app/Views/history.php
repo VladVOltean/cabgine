@@ -2,8 +2,9 @@
 
 <?= $this->section('content') ?>
 
-<div>
-<h1>MOD FINANCIAR</h1>
+<div class="cotainer">
+<h2> class="text-center mt-4 mb-4">History</h2>
+<h1>DOSAR PACIENTI</h1>
 </div>
 
 <?= $this->endSection() ?>

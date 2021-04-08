@@ -3,10 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\AnalysisModel;
-use CodeIgniter\I18n\Time;
 use App\Models\LetterModel;
 use App\Models\CabinetModel;
-use App\Models\UserModel;
 use App\Models\PatientModel;
 use App\Models\ConsultModel;
 use App\Models\ConsultAnaModel;
@@ -23,25 +21,22 @@ class MedicalRecord extends BaseController
 	{
 		$db = db_connect();
 		$modelpacient = new PatientModel($db);
-		$modelcab = new CabinetModel();
 		$modelconsult = new ConsultModel();
 		$modelExam = new ExaminationModel();
 		$modelAnalysis = new AnalysisModel();
-		$modelConsultExam = new ConsultExamModel();
-		$modelConsultAnalysis = new ConsultAnaModel();
-		$model = new LetterModel();
 
 		$data = [
-			'cabinet' => $modelcab->getCabinet('Gine3'),
 			'patient' => $modelpacient->getPatient($id_pacient),
 			'examination' => $modelExam->getAllExam(),
 			'analysis' => $modelAnalysis->getAllAnalysis(),
 		];
 		$data['consult'] = $modelconsult->getConsult($data['patient']['id_patient']);
-		$data['last_vizit'] = end($data['consult']);
-		foreach ($data['consult'] as &$consult) {
+		foreach ($data['consult'] as &$consult) 
+		{
 			$consult['date'] = date('d-m-Y', strtotime($consult['date']));
 		}
+		$data['last_vizit'] = end($data['consult']);
+
 		$rules = [
 			'antecedents' => ['rules' => 'required', 'label' => ' Medical antecedents'],
 			'last_period' => ['rules' => 'required', 'label' => ' Last period date'],
@@ -84,41 +79,70 @@ class MedicalRecord extends BaseController
 			$data['last_vizit'] = end($data['consult']);
 			$id_consult = $data['last_vizit']['id_consult'];
 			$total = 0;
-			if ($this->request->getPost('set_examinations') != []) {
-				foreach ($this->request->getPost('set_examinations')  as $newexam) {
-					$one_exam = $modelExam->getExam($newexam);
-					$total += $one_exam['price'];
-					$modelConsultExam->save([
-						'id_examination' => $newexam,
-						'id_consult' => $id_consult,
-						'price' => $one_exam['price']
-					]);
-				}
+			if ($this->request->getPost('set_examinations') != []) 
+			{
+				$exams=$this->request->getPost('set_examinations');
+				$total=$this->save_examinations($exams,$id_consult);
 			}
-			if ($this->request->getPost('set_analysis') != []) {
-				foreach ($this->request->getPost('set_analysis')  as $newana) {
-					$modelConsultAnalysis->save([
-						'id_analyses' => $newana,
-						'id_consult' => $id_consult,
-					]);
-				}
+			if ($this->request->getPost('set_analysis') != []) 
+			{
+				$analysis=$this->request->getPost('set_analysis');
+				$this->save_analysis($analysis,$id_consult);
 			}
-			$save_print = $this->request->getPost('save');
-			if (isset($save_print)) {
-				$model->save([
-					'id_patient' => $id_pacient,
-					'id_consult' => $id_consult,
-					'id_user' => session()->get('id'),
-					'id_cabinet' => $data['cabinet']['id_cabinet']
-				]);
 
+				$this->save_letter($id_consult,$id_pacient);
 				return redirect()->to(base_url() . '/medicalrecord/' . $id_pacient)->with('status', ' ' . $total . ' $');
-			} else {
-				return redirect()->to(base_url() . '/medicalletter/' . $id_pacient . '/' . $data['last_vizit']['id_consult'])->with('status', ' ' . $total . ' $');
-			}
 		}
-		echo view('templates/header');
 		echo view('medical_report', $data);
-		echo view('templates/footer');
+	}
+	public function history()
+		{
+			$modelconsult = new ConsultModel();
+			$id_consult = $this->request->getPost('id_consult');
+			$data['consult'] = $modelconsult->find($id_consult);
+			return $this->response->setJSON($data);
+		
+		}
+
+	public function save_examinations($exams,$id_consult)
+		{
+			$modelExam = new ExaminationModel();
+			$modelConsultExam = new ConsultExamModel();
+			$total = 0;
+			foreach ($exams  as $newexam) 
+			{
+				$one_exam = $modelExam->getExam($newexam);
+				$total += $one_exam['price'];
+				$modelConsultExam->save([
+					'id_examination' => $newexam,
+					'id_consult' => $id_consult,
+					'price' => $one_exam['price']
+				]);
+			}
+			return $total;
+		}
+
+	public function save_letter($idconsult, $idpatient)
+		{
+			$model = new LetterModel();
+			$modelcab = new CabinetModel();
+			$data['cabinet']=$modelcab->getCabinet('Gine3');
+			$model->save([
+				'id_patient' => $idpatient,
+				'id_consult' => $idconsult,
+				'id_user' => session()->get('id'),
+				'id_cabinet' => $data['cabinet']['id_cabinet']
+			]);
+		}
+	public function save_analysis($analysis,$id_consult)
+	{
+		$modelConsultAnalysis = new ConsultAnaModel();
+
+		foreach ($analysis  as $newana) {
+			$modelConsultAnalysis->save([
+				'id_analyses' => $newana,
+				'id_consult' => $id_consult,
+			]);
+		}
 	}
 }
