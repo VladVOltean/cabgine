@@ -1,4 +1,5 @@
 <div class="container">
+    <?= \Config\Services::validation()->listErrors(); ?><br>
                 <form action="<?php echo  base_url() . '/medicalrecord/' . $patient['id_patient']; ?>" method="post">
                     <div class="form">
                         <h3 style="text-align: center;">Gynecologic history</h3>
@@ -32,7 +33,6 @@
                             </div>
                         </div>
                     </div>
-                    <?= \Config\Services::validation()->listErrors(); ?><br>
                     <div class="form">
                         <h3>Consult records</h3>
                         <hr>

@@ -1,15 +1,30 @@
-<?php namespace App\Models;
+<?php
 
-use CodeIgniter\Model;
+namespace App\Models;
 
-class CityModel extends Model
+use CodeIgniter\Database\ConnectionInterface;
+
+class CityModel
 {
-    protected $table = 'city';
 
-    public function getCity($id_city)
+    protected $db;
+
+    public function __construct(ConnectionInterface &$db)
     {
-        return $this->asArray()
-            ->where(['id_city'=> $id_city])
-            ->first();
+        $this->db = &$db;
+    }
+
+    function countys()
+    {
+
+        $builder= $this->db->table('county');
+        $countys=$builder->orderBy('county', 'asc')->get()->getResult('array');
+        return $countys;
+    }
+    function city($id_county)
+    {
+        $builder = $this->db->table('city')->where('id_county', $id_county);
+        $city=$builder->orderBy('city','asc')->get()->getResult('array');
+        return $city;
     }
 }

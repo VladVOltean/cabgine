@@ -4,6 +4,7 @@ $(document).ready(function()
    $('#selectId').change(function() 
    {
        var id_consult = $("#selectId option:selected").val();
+       
        $.ajax(
            {
            method: 'POST',

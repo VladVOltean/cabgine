@@ -19,7 +19,7 @@ class ConsultExamModel extends Model
         $builder = $this->db->table('consult_examinations');
         $builder->join('examinations', 'consult_examinations.id_examination = examinations.id_examination')
             ->where(['id_consult' => $id_consult]);
-        $analysis = $builder->get()->getResult('array');
-        return $analysis;
+        $examinations = $builder->get()->getResult('array');
+        return $examinations;
     }
 }

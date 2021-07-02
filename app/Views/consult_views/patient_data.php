@@ -2,10 +2,9 @@
     <div class="card header">
         <h1 style="text-align: center;">Medical report</h1>
     </div>
-        <div class="card body">
-            <h3 class="card-title" style="margin-left:100px">Patient: <?= esc($patient['first_name']); ?> <?= esc($patient['last_name']); ?></h3>
-            <div class="container">
-                <div class="row">
+        <div class="card body" >
+            <h3 class="card-title" style="margin-left:70px">Patient: <?= esc($patient['first_name']); ?> <?= esc($patient['last_name']); ?></h3><br>
+                <div class="row" style="margin-left:40px">
                     <div class="col-md-6">
                         <p><strong>Date of birth: </strong><?= esc($patient['date_of_birth']); ?></p>
                         <p><strong>Adress: </strong><?= esc($patient['address']); ?> </p>
@@ -22,5 +21,5 @@
                             <p><strong>Civil status: </strong>single </p>
                         <?php endif; ?>
                     </div>
-                </div>
-            </div>
+                </div><br>
+            </div><br>

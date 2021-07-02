@@ -1,4 +1,4 @@
-<?= $this->extend('layouts/mainpage.php') ?>
+<?= $this->extend('mainpage.php') ?>
 
 <?= $this->section('content') ?>
 
@@ -8,11 +8,6 @@
       <div class="container">
         <h3>Login</h3>
         <hr>
-        <?php if (session()->get('success')) : ?>
-          <div class="alert alert-success" role="alert">
-            <?= session()->get('success') ?>
-          </div>
-        <?php endif; ?>
         <form class="" action="/" method="post">
           <div class="form-group">
             <label for="email">Email address</label>
@@ -32,9 +27,6 @@
           <div class="row">
             <div class="col-12 col-sm-4">
               <button type="submit" class="btn btn-primary">Login</button>
-            </div>
-            <div class="col-12 col=sm-8 text-right">
-              <a href="/register">Don't have an accout yet?</a>
             </div>
           </div>
         </form>
