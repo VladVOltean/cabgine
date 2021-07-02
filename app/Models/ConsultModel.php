@@ -32,9 +32,9 @@ class ConsultModel extends Model
 
     public function getConsult($id_patient)
     {
-
         return $this->asArray()
             ->where(['id_patient' => $id_patient])
+            ->orderBy('date', 'desc')
             ->get()->getResult('array');
     }
 }

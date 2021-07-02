@@ -1,5 +1,4 @@
-<?= $this->extend('layouts/mainpage.php') ?>
-
+<?= $this->extend('mainpage.php') ?>
 <?= $this->section('content') ?>
 <!-- History Modal -->
 <?= $this->include('consult_views/modal') ?>
@@ -9,18 +8,8 @@
 <?= $this->include('consult_views/records') ?>
 <!--Medical Form-->
 <?= $this->include('consult_views/forms') ?>
-<!-- Check boxes -->
+<!-- Check boxes & Save buttons-->
 <?= $this->include('consult_views/checks') ?>
-                    <button type="submit" name="save" style="margin-left:200px" class="btn btn-success float-left">Save consult</button>
-                    <button type="button" onclick="medical_letter( <?= esc($patient['id_patient']); ?>, <?= esc($last_vizit['id_consult']); ?>)" style="margin-right:200px"class="btn btn-secondary float-right">Medical letter</button>
-                    <br><br>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
-</div>
 <?= $this->endSection() ?>
 <?= $this->section('scripts') ?>
 <script src="<?= base_url('assets/js/medical_report.js');?>" ></script>

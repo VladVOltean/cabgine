@@ -33,16 +33,28 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Users::index', ['filter' => 'noauth']);
-$routes->match(['get', 'post'], 'register', 'Users::register', ['filter' => 'noauth']);
+$routes->get('users', 'Users::users_data', ['filter' => 'auth','filter'=>'admin']);
+$routes->match(['get', 'post'], 'profile/(:any)', 'Users::register_edit/$1',['filter' => 'auth']);
+$routes->get('delete/(:any)', 'Users::delete/$1', ['filter' => 'auth','filter'=>'admin']);
 $routes->get('logout', 'Users::logout');
-$routes->match(['get', 'post'], 'profile', 'Users::profile', ['filter' => 'auth']);
-$routes->get('dashboard', 'Dashboard::index', ['filter' => 'auth']);
-$routes->get('history', 'History::index');
-$routes->get('patients_list', 'PatientsList::index');
+$routes->get('patients_list', 'PatientsList::index',['filter' => 'auth']);
+$routes->match(['get', 'post'],'patient/(:any)', 'PatientsList::add_edit/$1',['filter' => 'auth']);
+$routes->match(['get', 'post'],'city','PatientsList::city',['filter' => 'auth']);
 $routes->match(['get', 'post'], 'medicalrecord/(:num)', 'MedicalRecord::index/$1', ['filter' => 'auth']);
 $routes->match(['get', 'post'],'medicalrecord/history', 'MedicalRecord::history', ['filter' => 'auth']);
-$routes->get('mod_financiar', 'ModFinanciar::index');
-$routes->get('medicalletter/(:any)/(:any)', 'Medicalletter::index/$1/$2', ['filter' => 'auth']);
+$routes->match(['get', 'post'],'medicalletter/(:any)/(:any)', 'Medicalletter::index/$1/$2', ['filter' => 'auth']);
+$routes->get('download_ML/(:any)/(:any)', 'Medicalletter::htmlToPDF/$1/$2', ['filter' => 'auth']);
+$routes->get('history/(:any)', 'History::index/$1', ['filter' => 'auth']);
+$routes->post('getpicture', 'History::getpicture', ['filter' => 'auth']);
+$routes->post('savepicture', 'History::savepicture', ['filter' => 'auth']);
+$routes->post('deletepicture', 'History::deletepicture', ['filter' => 'auth']);
+$routes->get('examinations', 'EditData::exam_data', ['filter' => 'auth','filter'=>'admin']);
+$routes->get('analyses', 'EditData::analyses_data', ['filter' => 'auth','filter'=>'admin']);
+$routes->match(['get', 'post'],'edit_exam/(:any)', 'EditData::edit_exam/$1', ['filter' => 'auth','filter'=>'admin']);
+$routes->match(['get', 'post'],'edit_analysis/(:any)', 'EditData::edit_analysis/$1', ['filter' => 'auth','filter'=>'admin']);
+$routes->get('delete_data/(:any)/(:any)', 'EditData::delete/$1/$2', ['filter' => 'auth','filter'=>'admin']);
+$routes->match(['get', 'post'],'clinic_data', 'EditData::clinic_data', ['filter' => 'auth','filter'=>'admin']);
+
 
 /**
  * --------------------------------------------------------------------

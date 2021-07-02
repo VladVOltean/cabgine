@@ -8,8 +8,7 @@ class AnalysisModel extends Model
 {
     protected $table = 'analysis';
 
-    public function getAllAnalysis()
-    {
-        return $this->get()->getResult('array');
-    }
+    protected $primaryKey ='id_analysis';
+
+    protected $allowedFields = ['analysis_name'];
 }

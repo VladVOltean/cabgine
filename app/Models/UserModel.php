@@ -7,11 +7,10 @@ use CodeIgniter\Model;
 class UserModel extends Model
 {
   protected $table = 'users';
-  protected $allowedFields = ['firstname', 'lastname', 'email', 'password', 'updated_at', 'is_admin'];
+  protected $primaryKey = 'id';
+  protected $allowedFields = ['firstname', 'lastname', 'email', 'password', 'signature', 'updated_at', 'is_admin', 'title'];
   protected $beforeInsert = ['beforeInsert'];
   protected $beforeUpdate = ['beforeUpdate'];
-
-
 
 
   protected function beforeInsert(array $data)
@@ -34,11 +33,5 @@ class UserModel extends Model
       $data['data']['password'] = password_hash($data['data']['password'], PASSWORD_DEFAULT);
 
     return $data;
-  }
-  public function getUser($id_user)
-  {
-    return $this->asArray()
-      ->where(['id' => $id_user])
-      ->first();
   }
 }

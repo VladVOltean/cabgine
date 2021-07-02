@@ -12,12 +12,10 @@ use App\Models\ConsultExamModel;
 use App\Models\ExaminationModel;
 
 
-
-
 class MedicalRecord extends BaseController
 {
 
-	public function index($id_pacient)
+	public function index($id_patient)
 	{
 		$db = db_connect();
 		$modelpacient = new PatientModel($db);
@@ -26,16 +24,16 @@ class MedicalRecord extends BaseController
 		$modelAnalysis = new AnalysisModel();
 
 		$data = [
-			'patient' => $modelpacient->getPatient($id_pacient),
-			'examination' => $modelExam->getAllExam(),
-			'analysis' => $modelAnalysis->getAllAnalysis(),
+			'patient' => $modelpacient->getPatient($id_patient),
+			'examination' => $modelExam->get()->getResult('array'),
+			'analysis' => $modelAnalysis->get()->getResult('array'),
 		];
-		$data['consult'] = $modelconsult->getConsult($data['patient']['id_patient']);
+		$data['consult'] = $modelconsult->getConsult($id_patient);
 		foreach ($data['consult'] as &$consult) 
 		{
 			$consult['date'] = date('d-m-Y', strtotime($consult['date']));
 		}
-		$data['last_vizit'] = end($data['consult']);
+		$data['last_vizit'] = reset($data['consult']);
 
 		$rules = [
 			'antecedents' => ['rules' => 'required', 'label' => ' Medical antecedents'],
@@ -57,11 +55,10 @@ class MedicalRecord extends BaseController
 			} else {
 				$data['checkedbox'] = 0;
 			}
-
 			$modelconsult->save([
 				'id_user' => session()->get('id'),
 				'last_period' => $this->request->getPost('last_period'),
-				'id_patient' => $data['patient']['id_patient'],
+				'id_patient' => $id_patient,
 				'climax' => $data['checkedbox'],
 				'menstrual_cycle' => $this->request->getPost('menstrual_cycle'),
 				'births' => $this->request->getPost('births'),
@@ -75,8 +72,8 @@ class MedicalRecord extends BaseController
 
 			]);
 
-			$data['consult'] = $modelconsult->getConsult($data['patient']['id_patient']);
-			$data['last_vizit'] = end($data['consult']);
+			$data['consult'] = $modelconsult->getConsult($id_patient);
+			$data['last_vizit'] = reset($data['consult']);
 			$id_consult = $data['last_vizit']['id_consult'];
 			$total = 0;
 			if ($this->request->getPost('set_examinations') != []) 
@@ -90,10 +87,10 @@ class MedicalRecord extends BaseController
 				$this->save_analysis($analysis,$id_consult);
 			}
 
-				$this->save_letter($id_consult,$id_pacient);
-				return redirect()->to(base_url() . '/medicalrecord/' . $id_pacient)->with('status', ' ' . $total . ' $');
+				$this->save_letter($id_consult,$id_patient);
+				return redirect()->to(base_url() . '/medicalrecord/' . $id_patient)->with('status', ' ' . $total . ' RON');
 		}
-		echo view('medical_report', $data);
+		echo view('consult_views/medical_report', $data);
 	}
 	public function history()
 		{
@@ -111,7 +108,7 @@ class MedicalRecord extends BaseController
 			$total = 0;
 			foreach ($exams  as $newexam) 
 			{
-				$one_exam = $modelExam->getExam($newexam);
+				$one_exam = $modelExam->where('id_examination',$newexam)->first();
 				$total += $one_exam['price'];
 				$modelConsultExam->save([
 					'id_examination' => $newexam,
@@ -126,12 +123,12 @@ class MedicalRecord extends BaseController
 		{
 			$model = new LetterModel();
 			$modelcab = new CabinetModel();
-			$data['cabinet']=$modelcab->getCabinet('Gine3');
+			$data['cabinet']=$modelcab->where('id_cabinet','1')->first();
 			$model->save([
-				'id_patient' => $idpatient,
-				'id_consult' => $idconsult,
-				'id_user' => session()->get('id'),
-				'id_cabinet' => $data['cabinet']['id_cabinet']
+				'patients_id' => $idpatient,
+				'consults_id' => $idconsult,
+				'users_id' => session()->get('id'),
+				'cabinet_id' => $data['cabinet']['id_cabinet']
 			]);
 		}
 	public function save_analysis($analysis,$id_consult)

@@ -8,15 +8,7 @@ class ExaminationModel extends Model
 {
     protected $table = 'examinations';
 
-    public function getAllExam()
-    {
-        return $this->get()->getResult('array');
-    }
+    protected $primaryKey ='id_examination';
 
-    public function getExam($id_exam)
-    {
-        return $this->asArray()
-            ->where(['id_examination' => $id_exam])
-            ->first();
-    }
+    protected $allowedFields = ['examination_name','price'];
 }

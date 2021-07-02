@@ -10,7 +10,20 @@ class PatientModel extends Model
 
 	protected $primaryKey = 'id_patient';
 
-	protected $allowedFields = ['first_name', 'last_name', 'identification_number'];
+	protected $allowedFields = [
+						'first_name', 
+						'last_name', 
+						'identification_number',
+						'date_of_birth',
+						'id_county',
+						'id_city', 
+						'address',
+						'ocuppation',
+						'job',
+						'telephone',
+						'email',
+						'civil_status'
+							];
 
 	public function getPatient($id_patient)
 	{
@@ -21,4 +34,13 @@ class PatientModel extends Model
 		$patient = $builder->get()->getFirstRow('array');
 		return $patient;
 	}
+	function getAllPatients()
+    {
+        $builder = $this->db->table('patients');
+        $builder->join('city', 'patients.id_city = city.id_city')
+		->join('county', 'patients.id_county = county.id_county');
+        $patients = $builder->get()->getResult('array');
+        return $patients;
+    }
 }
+

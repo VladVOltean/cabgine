@@ -8,12 +8,8 @@ class CabinetModel extends Model
 {
     protected $table = 'cabinet';
 
-    public function getCabinet($name)
-    {
-        //return $this->where(['name' => $name])
-        //    ->get()->getResult('array');
-        return $this->asArray()
-            ->where(['name' => $name])
-            ->first();
-    }
+    protected $primaryKey ='id_cabinet';
+
+    protected $allowedFields = ['name','logo','cab_address','telephone','cab_email', 'tax_identification_code', 'trade_register_number','IBAN'];
+
 }
